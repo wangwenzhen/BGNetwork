@@ -16,6 +16,15 @@
 - (instancetype)initWithApiManager:(BGBaseApiManager *)apiManager{
     if (self = [super init]) {
         self =(BGHTTPSessionManager *)[AFHTTPSessionManager manager];
+        if ([apiManager.apiConfigDelegate respondsToSelector:@selector(enableHttpsReq)]) {
+            if (apiManager.apiConfigDelegate.enableHttpsReq) {
+                //忽略https的证书问题 强制打开
+                AFSecurityPolicy *securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
+                [securityPolicy setValidatesDomainName:NO];
+                self.securityPolicy = securityPolicy;
+                self.securityPolicy.allowInvalidCertificates = YES;
+            }
+        }
         /** 返回类型 */
         if ([apiManager.apiConfigDelegate respondsToSelector:@selector(responseSerializerType)]) {
             switch (apiManager.apiConfigDelegate.responseSerializerType) {
@@ -116,6 +125,12 @@
         }
         
         if (completionHandle) {
+            //格式化一下
+            if (responseObject) {
+                NSData *d = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];;
+                responseObject = [NSJSONSerialization JSONObjectWithData:d options:NSJSONReadingMutableContainers error:nil];
+            }
+            
             completionHandle(responseObject, error);
         }
     }];

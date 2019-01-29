@@ -31,7 +31,8 @@
 - (NSString *)serverDomainPath;
 
 @optional
-
+/** 是否支持 */
+- (BOOL)enableHttpsReq;
 /**
  请求参数的公共处理 #warning : 下载和上传任务 默认没有实现接口
  

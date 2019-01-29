@@ -15,4 +15,9 @@
 + (NSString *)requestUserLoginParams:(NSDictionary *)params completionBlock:(BGNetworkCompletionBlcok)completionBlock;
 /** 用户是否存在 */
 + (NSString *)requestUserIsCreate:(NSDictionary *)params completionBlock:(BGNetworkCompletionBlcok)completionBlock;
+
+/** 一个测试用的 免费开放接口 */
++ (NSString *)reqTaobao:(NSDictionary *)params completionBlock:(BGNetworkCompletionBlcok)completionBlock;
+/** 测试强制请求 https */
++ (NSString *)reqHttpsCompletionBlcok:(BGNetworkCompletionBlcok)completionBlock;
 @end

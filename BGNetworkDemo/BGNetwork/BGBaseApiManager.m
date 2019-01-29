@@ -34,6 +34,7 @@
 
 #pragma mark - custom Method
 - (NSString *)dataRequestWithExtraMethod:(BGRequestMethod)extraMethod url:(NSString *)url params:(NSDictionary *)params completionHandle:(BGNetworkCompletionBlcok)completionHandle{
+    
    return [[BGNetworkManager shareManager] dataRequestWithApiManager:self
                                                    extraMethod:extraMethod
                                                            url:url
