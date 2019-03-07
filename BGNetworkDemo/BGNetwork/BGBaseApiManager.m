@@ -15,11 +15,15 @@
 
 @implementation BGBaseApiManager
 + (instancetype)shareManager{
-    BGBaseApiManager *apiManager = [self new];
+    static BGBaseApiManager *apiManager = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        apiManager = [self new];
+    });
     return apiManager;
 }
 - (void)dealloc {NSLog(@"%@ ---- dalloc ", NSStringFromClass([self class]));}
-                       
+
 - (instancetype)init{
     if (self = [super init]) {
         if ([self respondsToSelector:@selector(defaultRequestMethod)]
@@ -35,37 +39,37 @@
 #pragma mark - custom Method
 - (NSString *)dataRequestWithExtraMethod:(BGRequestMethod)extraMethod url:(NSString *)url params:(NSDictionary *)params completionHandle:(BGNetworkCompletionBlcok)completionHandle{
     
-   return [[BGNetworkManager shareManager] dataRequestWithApiManager:self
-                                                   extraMethod:extraMethod
-                                                           url:url
-                                                        params:params
-                                              completionHandle:completionHandle];
+    return [[BGNetworkManager shareManager] dataRequestWithApiManager:self
+                                                          extraMethod:extraMethod
+                                                                  url:url
+                                                               params:params
+                                                     completionHandle:completionHandle];
 }
 
 - (NSString *)uploadRequestWithUrl:(NSString *)url
-                      params:(NSDictionary *)params
-                  uploadType:(BGUploadType)uploadType
-                       datas:(NSArray *)datas
-               progressBlock:(BGProgressBlock)progress
-            completionHandle:(BGNetworkCompletionBlcok)completionHandle{
-
-   return [[BGNetworkManager shareManager] uploadRequestWithApiManager:self
-                                                             url:url
-                                                          params:params
-                                                      uploadType:uploadType
-                                                           datas:datas
-                                                   progressBlock:progress
-                                                completionHandle:completionHandle];
+                            params:(NSDictionary *)params
+                        uploadType:(BGUploadType)uploadType
+                             datas:(NSArray *)datas
+                     progressBlock:(BGProgressBlock)progress
+                  completionHandle:(BGNetworkCompletionBlcok)completionHandle{
+    
+    return [[BGNetworkManager shareManager] uploadRequestWithApiManager:self
+                                                                    url:url
+                                                                 params:params
+                                                             uploadType:uploadType
+                                                                  datas:datas
+                                                          progressBlock:progress
+                                                       completionHandle:completionHandle];
 }
 
 - (NSString *)downloadRequestWithUrl:(NSString *)url
-              destinationBlock:(BGDestinationBlcok)destinationBlock
-                 progressBlock:(BGProgressBlock)progress
-              completionHandle:(BGNetworkCompletionBlcok)completionHandle{
+                    destinationBlock:(BGDestinationBlcok)destinationBlock
+                       progressBlock:(BGProgressBlock)progress
+                    completionHandle:(BGNetworkCompletionBlcok)completionHandle{
     return [[BGNetworkManager shareManager] downloadRequestWithApiManager:self
-                                                               url:url
-                                                  destinationBlock:destinationBlock
-                                                     progressBlock:progress
-                                                  completionHandle:completionHandle];
+                                                                      url:url
+                                                         destinationBlock:destinationBlock
+                                                            progressBlock:progress
+                                                         completionHandle:completionHandle];
 }
 @end

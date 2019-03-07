@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		12EBF76CD13E47ACA32AE298 /* libPods-BGNetworkDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADF448B2995742341803BDB1 /* libPods-BGNetworkDemo.a */; };
+		7041DB7C223124DF00AA3C0E /* AKLoginApiM.m in Sources */ = {isa = PBXBuildFile; fileRef = 7041DB7B223124DF00AA3C0E /* AKLoginApiM.m */; };
 		70F10B942230EACA00BD3551 /* BGLoginApiManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F10B932230EACA00BD3551 /* BGLoginApiManager.m */; };
 		C01D616620C5915B003CAE68 /* NSUserDefaults+BGAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = C01D616520C5915B003CAE68 /* NSUserDefaults+BGAdd.m */; };
 		C03487F6217C57FB00E08721 /* BGNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C03487F4217C57FB00E08721 /* BGNetworkManager.m */; };
@@ -42,6 +43,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7041DB7A223124DF00AA3C0E /* AKLoginApiM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AKLoginApiM.h; sourceTree = "<group>"; };
+		7041DB7B223124DF00AA3C0E /* AKLoginApiM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AKLoginApiM.m; sourceTree = "<group>"; };
 		70F10B922230EACA00BD3551 /* BGLoginApiManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BGLoginApiManager.h; sourceTree = "<group>"; };
 		70F10B932230EACA00BD3551 /* BGLoginApiManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BGLoginApiManager.m; sourceTree = "<group>"; };
 		730CCF410EE4D4682B16DEB2 /* Pods-BGNetworkDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BGNetworkDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-BGNetworkDemo/Pods-BGNetworkDemo.release.xcconfig"; sourceTree = "<group>"; };
@@ -222,6 +225,8 @@
 		C034F4EC20C42E5100B8467A /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				7041DB7A223124DF00AA3C0E /* AKLoginApiM.h */,
+				7041DB7B223124DF00AA3C0E /* AKLoginApiM.m */,
 				C034F4ED20C42E7300B8467A /* BGUserApiManger.h */,
 				C034F4EE20C42E7300B8467A /* BGUserApiManger.m */,
 				70F10B922230EACA00BD3551 /* BGLoginApiManager.h */,
@@ -424,6 +429,7 @@
 				C034F4EF20C42E7300B8467A /* BGUserApiManger.m in Sources */,
 				70F10B942230EACA00BD3551 /* BGLoginApiManager.m in Sources */,
 				C034F4B020C4087B00B8467A /* main.m in Sources */,
+				7041DB7C223124DF00AA3C0E /* AKLoginApiM.m in Sources */,
 				C01D616620C5915B003CAE68 /* NSUserDefaults+BGAdd.m in Sources */,
 				C03487F7217C57FB00E08721 /* BGBaseApiManager.m in Sources */,
 				C034F4A220C4087B00B8467A /* AppDelegate.m in Sources */,

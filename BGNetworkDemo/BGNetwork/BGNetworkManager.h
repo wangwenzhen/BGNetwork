@@ -26,14 +26,14 @@
  @return 任务id
  */
 - (NSString *)dataRequestWithApiManager:(BGBaseApiManager *)apiManager
-                      extraMethod:(BGRequestMethod)extraMethod
-                               url:(NSString *)url
-                            params:(NSDictionary *)params
-                  completionHandle:(BGNetworkCompletionBlcok)completionHandle;
+                            extraMethod:(BGRequestMethod)extraMethod
+                                    url:(NSString *)url
+                                 params:(NSDictionary *)params
+                       completionHandle:(BGNetworkCompletionBlcok)completionHandle;
 
 /**
  上传任务
-
+ 
  @param url 接口url
  @param params 拼接参数
  @param uploadType 上传类型
@@ -43,12 +43,12 @@
  @return 任务id
  */
 - (NSString *)uploadRequestWithApiManager:(BGBaseApiManager *)apiManager
-                                url:(NSString *)url
-                             params:(NSDictionary *)params
-                         uploadType:(BGUploadType)uploadType
-                              datas:(NSArray *)datas
-                      progressBlock:(BGProgressBlock)progress
-                   completionHandle:(BGNetworkCompletionBlcok)completionHandle;
+                                      url:(NSString *)url
+                                   params:(NSDictionary *)params
+                               uploadType:(BGUploadType)uploadType
+                                    datas:(NSArray *)datas
+                            progressBlock:(BGProgressBlock)progress
+                         completionHandle:(BGNetworkCompletionBlcok)completionHandle;
 
 /**
  下载任务
@@ -61,14 +61,14 @@
  @return 任务id
  */
 - (NSString *)downloadRequestWithApiManager:(BGBaseApiManager *)apiManager
-                                  url:(NSString *)url
-                     destinationBlock:(BGDestinationBlcok)destinationBlock
-                        progressBlock:(BGProgressBlock)progress
-                     completionHandle:(BGNetworkCompletionBlcok)completionHandle;
+                                        url:(NSString *)url
+                           destinationBlock:(BGDestinationBlcok)destinationBlock
+                              progressBlock:(BGProgressBlock)progress
+                           completionHandle:(BGNetworkCompletionBlcok)completionHandle;
 
 /**
  通过UnionId取消任务
-
+ 
  @param unionId 任务Id
  */
 - (void)cancelTaskWithUnionId:(NSString *)unionId;

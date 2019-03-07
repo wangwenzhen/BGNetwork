@@ -10,7 +10,7 @@
 #import "BGBaseApiManager.h"
 @interface BGHTTPSessionManager : AFHTTPSessionManager
 - (instancetype)initWithApiManager:(BGBaseApiManager *)apiManager;
-    
+
 @end
 @implementation BGHTTPSessionManager
 - (instancetype)initWithApiManager:(BGBaseApiManager *)apiManager{
@@ -43,7 +43,7 @@
         
         /** 支持格式 */
         self.responseSerializer.acceptableContentTypes = [BGNetworkManager NetworkAcceptableContentTypes];
-
+        
         /** 发送类型 */
         if ([apiManager.apiConfigDelegate respondsToSelector:@selector(requestSerializerType)]) {
             switch (apiManager.apiConfigDelegate.requestSerializerType) {
@@ -101,11 +101,29 @@
 
 #pragma mark - custom Method
 - (NSString *)dataRequestWithApiManager:(BGBaseApiManager *)apiManager
-                      extraMethod:(BGRequestMethod)extraMethod
-                              url:(NSString *)url
-                           params:(NSDictionary *)params
-                 completionHandle:(BGNetworkCompletionBlcok)completionHandle{
+                            extraMethod:(BGRequestMethod)extraMethod
+                                    url:(NSString *)url
+                                 params:(NSDictionary *)params
+                       completionHandle:(BGNetworkCompletionBlcok)completionHandle{
     BGHTTPSessionManager *sessionManager = [[BGHTTPSessionManager alloc] initWithApiManager:apiManager];
+    
+    //是否允许请求重定向
+    if ([apiManager.apiConfigDelegate respondsToSelector:@selector(enableRedirection)]) {
+        
+        if ([apiManager.apiConfigDelegate enableRedirection]) {
+            [sessionManager setTaskWillPerformHTTPRedirectionBlock:^NSURLRequest *(NSURLSession *session, NSURLSessionTask *task, NSURLResponse *response, NSURLRequest *request) {
+                if (response) {
+                    if ([apiManager.apiConfigDelegate respondsToSelector:@selector(redirectionUrl:originParam:originReqUrl:)]) {
+                        [apiManager.apiConfigDelegate redirectionUrl:request.URL
+                                                         originParam:params
+                                                        originReqUrl:url];
+                    }
+                    return nil;
+                }
+                return request;
+            }];
+        }
+    }
     
     /** 获取api中的环境 拼接接口 参数 是否要修改接口请求类型【GET/POST】 */
     NSURLRequest *urlRequest = [self urlRequestWithSessionManager:sessionManager
@@ -113,6 +131,8 @@
                                                       extraMethod:extraMethod
                                                        requestUrl:url
                                                      requestParam:params];
+    
+    
     __block NSURLSessionDataTask *dataTask = nil;
     dataTask = [sessionManager dataTaskWithRequest:urlRequest completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
         NSString *task_id = intToString(dataTask.taskIdentifier);
@@ -139,18 +159,18 @@
     @synchronized(self.taskTable) {
         [self.taskTable setValue:dataTask forKey:task_id];
     }
-
+    
     [dataTask resume];
     return task_id;
 }
 
 - (NSString *)uploadRequestWithApiManager:(BGBaseApiManager *)apiManager
-                                url:(NSString *)url
-                             params:(NSDictionary *)params
-                         uploadType:(BGUploadType)uploadType
-                              datas:(NSArray *)datas
-                      progressBlock:(BGProgressBlock)progress
-                   completionHandle:(BGNetworkCompletionBlcok)completionHandle{
+                                      url:(NSString *)url
+                                   params:(NSDictionary *)params
+                               uploadType:(BGUploadType)uploadType
+                                    datas:(NSArray *)datas
+                            progressBlock:(BGProgressBlock)progress
+                         completionHandle:(BGNetworkCompletionBlcok)completionHandle{
     NSAssert(url, @"上传任务 url 不可为空");
     BGHTTPSessionManager *manager = [[BGHTTPSessionManager alloc] initWithApiManager:apiManager];
     NSError *error = nil;
@@ -213,7 +233,7 @@
                 break;
         }
     } error:&error];
-
+    
     if (error) {
         completionHandle(nil,error);
         return nil;
@@ -222,17 +242,17 @@
         dataTask = [manager uploadTaskWithStreamedRequest:request
                                                  progress:progress
                                         completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
-            NSString *task_id = intToString(dataTask.taskIdentifier);
-            [manager invalidateSessionCancelingTasks:YES];
-            
-            @synchronized(self.taskTable) {
-                if ([self.taskTable.allKeys containsObject:task_id]) {
-                    [self.taskTable removeObjectForKey:task_id];
-                }
-            }
-            
-            completionHandle(responseObject,error);
-        }];
+                                            NSString *task_id = intToString(dataTask.taskIdentifier);
+                                            [manager invalidateSessionCancelingTasks:YES];
+                                            
+                                            @synchronized(self.taskTable) {
+                                                if ([self.taskTable.allKeys containsObject:task_id]) {
+                                                    [self.taskTable removeObjectForKey:task_id];
+                                                }
+                                            }
+                                            
+                                            completionHandle(responseObject,error);
+                                        }];
         
         NSString *task_id = intToString(dataTask.taskIdentifier);
         @synchronized(self.taskTable) {
@@ -244,31 +264,31 @@
 }
 
 - (NSString *)downloadRequestWithApiManager:(BGBaseApiManager *)apiManager
-                                  url:(NSString *)url
-                     destinationBlock:(BGDestinationBlcok)destinationBlock
-                        progressBlock:(BGProgressBlock)progress
-                     completionHandle:(BGNetworkCompletionBlcok)completionHandle{
+                                        url:(NSString *)url
+                           destinationBlock:(BGDestinationBlcok)destinationBlock
+                              progressBlock:(BGProgressBlock)progress
+                           completionHandle:(BGNetworkCompletionBlcok)completionHandle{
     NSLog(@"http_url# %@",url);
     BGHTTPSessionManager *manager = [[BGHTTPSessionManager alloc] initWithApiManager:apiManager];
-
+    
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     NSURLSessionDownloadTask *downloadTask = nil;
     downloadTask = [manager downloadTaskWithRequest:request
                                            progress:progress
                                         destination:destinationBlock
                                   completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
-                                                                      NSString *task_id = intToString(downloadTask.taskIdentifier);
-                                                                      [manager invalidateSessionCancelingTasks:YES];
-                                                                      
-                                                                      @synchronized(self.taskTable) {
-                                                                          if ([self.taskTable.allKeys containsObject:task_id]) {
-                                                                              [self.taskTable removeObjectForKey:task_id];
-                                                                          }
-                                                                      }
-                                                                      if (completionHandle) {
-                                                                          completionHandle(filePath, error);
-                                                                      }
-                                                                  }];
+                                      NSString *task_id = intToString(downloadTask.taskIdentifier);
+                                      [manager invalidateSessionCancelingTasks:YES];
+                                      
+                                      @synchronized(self.taskTable) {
+                                          if ([self.taskTable.allKeys containsObject:task_id]) {
+                                              [self.taskTable removeObjectForKey:task_id];
+                                          }
+                                      }
+                                      if (completionHandle) {
+                                          completionHandle(filePath, error);
+                                      }
+                                  }];
     NSString *task_id = intToString(downloadTask.taskIdentifier);
     @synchronized(self.taskTable) {
         [self.taskTable setValue:downloadTask forKey:task_id];
@@ -318,23 +338,23 @@
         } else {
             [params_m setValue:params[key] forKey:key];
         }
-    
+        
     }
     
     NSURLRequest *urlRequest = nil;
-  
+    
     urlRequest = [[sessionManager requestSerializer] requestWithMethod:requestType
                                                              URLString:http_url
                                                             parameters:params
                                                                  error:nil];
-
+    
     return urlRequest;
 }
 
 - (NSDictionary *)parametersWithApiManager:(BGBaseApiManager *)apiManager requestParam:(NSDictionary *)requestParam requestUrl:(NSString *)requestUrl {
     if ([apiManager.apiConfigDelegate respondsToSelector:@selector(parametersWithRequestParam:requestUrl:)]) {
         requestParam = [apiManager.apiConfigDelegate parametersWithRequestParam:requestParam
-                                                                   requestUrl:requestUrl];
+                                                                     requestUrl:requestUrl];
     }
     
     return requestParam;
@@ -365,12 +385,12 @@
 #pragma mark - Getter & Setter
 + (NSSet<NSString *> *)NetworkAcceptableContentTypes{
     return [NSSet setWithObjects:@"application/json",
-                                 @"text/html",
-                                 @"text/json",
-                                 @"text/plain",
-                                 @"text/javascript",
-                                 @"text/xml",
-                                 @"image/*",nil];
+            @"text/html",
+            @"text/json",
+            @"text/plain",
+            @"text/javascript",
+            @"text/xml",
+            @"image/*",nil];
 }
 
 - (NSString *)getRequestHttp_url:(NSString *)url withApiManager:(BGBaseApiManager *)apiManager{
@@ -391,7 +411,7 @@
         compression -= 0.1;
         imageData = UIImageJPEGRepresentation(image, compression);
     }
-
+    
     return imageData;
 }
 @end
