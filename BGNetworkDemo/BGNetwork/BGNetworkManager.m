@@ -56,23 +56,6 @@
             }
         }
         
-        //是否允许请求重定向
-        if ([apiManager.apiConfigDelegate respondsToSelector:@selector(enableRedirection)]) {
-           
-            if ([apiManager.apiConfigDelegate enableRedirection]) {
-                [self setTaskWillPerformHTTPRedirectionBlock:^NSURLRequest *(NSURLSession *session, NSURLSessionTask *task, NSURLResponse *response, NSURLRequest *request) {
-                    if (response) {
-                        if ([apiManager.apiConfigDelegate respondsToSelector:@selector(redirectionUrl:)]) {
-                            [apiManager.apiConfigDelegate redirectionUrl:request.URL];
-                        }
-                        return nil;
-                    }
-                    return request;
-                }];
-            }
-            
-        }
-        
         /** 超时 时长 */
         if ([apiManager.apiConfigDelegate respondsToSelector:@selector(requestTimeoutInterval)]) {
             self.requestSerializer.timeoutInterval = apiManager.apiConfigDelegate.requestTimeoutInterval;

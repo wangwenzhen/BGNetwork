@@ -33,7 +33,8 @@
 @optional
 /** 是否允许重定向 */
 - (BOOL)enableRedirection;
-- (void)redirectionUrl:(NSURL *)url;
+/** 截获重定向url */
+- (void)redirectionUrl:(NSURL *)url param:(id)param;
 /** 是否支持 */
 - (BOOL)enableHttpsReq;
 /**
