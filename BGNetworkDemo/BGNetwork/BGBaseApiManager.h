@@ -31,6 +31,9 @@
 - (NSString *)serverDomainPath;
 
 @optional
+/** 是否允许重定向 */
+- (BOOL)enableRedirection;
+- (void)redirectionUrl:(NSURL *)url;
 /** 是否支持 */
 - (BOOL)enableHttpsReq;
 /**

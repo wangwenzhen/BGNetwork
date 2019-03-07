@@ -8,7 +8,9 @@
 
 #import "ViewController.h"
 #import "BGUserApiManger.h"
+#import "BGLoginApiManager.h"
 #import <AFNetworking/AFNetworking.h>
+
 @interface ViewController ()
 
 @end
@@ -17,7 +19,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    {
+        NSDictionary *param = @{@"UserID":@"15906407244",@"mac":@"3BF83DF3-22A7-484B-8E52-E3F3D27D8366"};
+        [BGLoginApiManager requestLoginParams:param completionBlcok:^(id responseObject, NSError *error) {
+            NSLog(@"....");
+        }];
+    }
+
     NSDictionary *user_info = @{
                                 @"username":@"wanssgwz1as",
                                 @"password":@"122"
