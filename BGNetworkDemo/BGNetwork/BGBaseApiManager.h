@@ -31,12 +31,31 @@
 - (NSString *)serverDomainPath;
 
 @optional
+
+/** 设置单接口的缓存时长 */
+- (NSInteger)cacheDataTime;
+/** 是否开启接口缓存*/
+- (BOOL)isEnableCache;
+/** 接口数据缓存的主键 */
+- (NSString *)cacheDBId;
+
+- (void)responeAllHttpHeaders:(NSDictionary *)responeHttpHeaders;
 /** 是否允许重定向 */
 - (BOOL)enableRedirection;
 /** 截获重定向url */
 - (void)redirectionUrl:(NSURL *)redirectionUrl originParam:(id)param originReqUrl:(NSString *)originReqUrl;
 /** 是否支持 */
 - (BOOL)enableHttpsReq;
+/** 是否支持请求失败重试 */
+- (BOOL)needRetryReq;
+/** 最多重试请求次数,未实现默认3 */
+- (int)maxRetryReqTimes;
+/** 请求重试间隔,未实现默认1 */
+- (int)retryReqInterval;
+/** 判断请求是否满足业务需求 不满足则请求重试，且不缓存数据, 不实现默认满足 */
+- (BOOL)areBusinessNeedMeetWithResponseObject:(id )responseObject;
+
+
 /**
  请求参数的公共处理 #warning : 下载和上传任务 默认没有实现接口
  
@@ -47,7 +66,7 @@
 - (NSDictionary *)parametersWithRequestParam:(NSDictionary *)requestParam
                                   requestUrl:(NSString *)requestUrl;
 /**
- 请求最大时长 【默认是3秒】
+ 请求最大时长 【默认是8秒】
  
  @return 时长
  */
@@ -75,6 +94,8 @@
 @interface BGBaseApiManager : NSObject
 /** API 配置 */
 @property (nonatomic,weak) id<BGApiConfigDelegate> apiConfigDelegate;
+/** 是否强制拉取远程数据 */
+@property (nonatomic,assign) BOOL isMandatoryPullRemote;
 + (instancetype)shareManager;
 
 /**
@@ -119,4 +140,7 @@
                     destinationBlock:(BGDestinationBlcok)destinationBlock
                        progressBlock:(BGProgressBlock)progress
                     completionHandle:(BGNetworkCompletionBlcok)completionHandle;
+
+- (void)cancleTaskByPreId:(NSString *)taskId;
+
 @end

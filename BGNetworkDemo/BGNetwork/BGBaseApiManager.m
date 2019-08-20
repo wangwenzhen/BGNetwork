@@ -37,6 +37,10 @@
 }
 
 #pragma mark - custom Method
+- (void)cancleTaskByPreId:(NSString *)taskId{
+    NSLog(@"--- %@",taskId);
+    [[BGNetworkManager shareManager] cancelTaskWithUnionId:taskId];
+}
 - (NSString *)dataRequestWithExtraMethod:(BGRequestMethod)extraMethod url:(NSString *)url params:(NSDictionary *)params completionHandle:(BGNetworkCompletionBlcok)completionHandle{
     
     return [[BGNetworkManager shareManager] dataRequestWithApiManager:self

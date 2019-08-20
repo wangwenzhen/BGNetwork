@@ -8,12 +8,11 @@
 
 #ifndef BGNetwork_h
 #define BGNetwork_h
-typedef void(^BGNetworkCompletionBlcok)(id responseObject, NSError *error);
-typedef void(^BGProgressBlock)(NSProgress *progress);
-typedef NSURL *(^BGDestinationBlcok)(NSURL *, NSURLResponse *);
+
 
 typedef NS_ENUM(NSUInteger,BGServerDomainPathType){
     BGServerDomainPathTypeTest,
+    BGServerDomainPathTypeGray,
     BGServerDomainPathTypeRelease,
 };
 
@@ -40,6 +39,17 @@ typedef NS_ENUM(NSUInteger,BGUploadType) {
     BGUploadTypeFilePath
 };
 
+typedef NS_ENUM(NSUInteger,BGResponseDataType) {
+    BGResponseDataTypeRemote = 1,
+    BGResponseDataTypeRemoteInvalid,
+    BGResponseDataTypeCache
+};
+
+
+typedef void(^BGNetworkCompletionBlcok)(id responseObject, NSError *error,BGResponseDataType responseDataType);
+typedef void(^BGProgressBlock)(NSProgress *progress);
+typedef NSURL *(^BGDestinationBlcok)(NSURL *, NSURLResponse *);
+
 static const NSTimeInterval kDEFAULT_REQUEST_TIMEOUT = 8.f;
 static NSString * const kBG_ServerDomainPath_KEY = @"kBG_ServerDomainPath_KEY";
 
@@ -55,7 +65,7 @@ static inline NSString* intToString(NSInteger num){
 
 static inline BGServerDomainPathType BGAPIEnvironment(){
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-    return [[userDefault valueForKey:kBG_ServerDomainPath_KEY] integerValue];
+    return (BGServerDomainPathType)[[userDefault valueForKey:kBG_ServerDomainPath_KEY] integerValue];
 }
 
 // 图片存储的地址

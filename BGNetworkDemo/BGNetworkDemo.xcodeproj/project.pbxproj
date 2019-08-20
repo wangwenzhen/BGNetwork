@@ -9,6 +9,35 @@
 /* Begin PBXBuildFile section */
 		12EBF76CD13E47ACA32AE298 /* libPods-BGNetworkDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADF448B2995742341803BDB1 /* libPods-BGNetworkDemo.a */; };
 		7041DB7C223124DF00AA3C0E /* AKLoginApiM.m in Sources */ = {isa = PBXBuildFile; fileRef = 7041DB7B223124DF00AA3C0E /* AKLoginApiM.m */; };
+		70B4EB03230B9F7E001E6693 /* AKHomeApiM.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B4EB01230B9F7E001E6693 /* AKHomeApiM.m */; };
+		70B4EB45230BA02E001E6693 /* BGVideoEditManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B4EB0A230BA02E001E6693 /* BGVideoEditManager.m */; };
+		70B4EB46230BA02E001E6693 /* GIFProduceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B4EB0C230BA02E001E6693 /* GIFProduceManager.m */; };
+		70B4EB47230BA02E001E6693 /* KCAuthorityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B4EB0E230BA02E001E6693 /* KCAuthorityManager.m */; };
+		70B4EB48230BA02E001E6693 /* KCFileHandleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B4EB10230BA02E001E6693 /* KCFileHandleManager.m */; };
+		70B4EB49230BA02E001E6693 /* KCSaveToAlbumManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B4EB12230BA02E001E6693 /* KCSaveToAlbumManager.m */; };
+		70B4EB4A230BA02E001E6693 /* KCTaskChain.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B4EB14230BA02E001E6693 /* KCTaskChain.m */; };
+		70B4EB4B230BA02E001E6693 /* NSArray+BTExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B4EB16230BA02E001E6693 /* NSArray+BTExtension.m */; };
+		70B4EB4C230BA02E001E6693 /* NSData+BGExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B4EB18230BA02E001E6693 /* NSData+BGExtension.m */; };
+		70B4EB4D230BA02E001E6693 /* NSDate+BTExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B4EB1A230BA02E001E6693 /* NSDate+BTExtension.m */; };
+		70B4EB4E230BA02E001E6693 /* NSDictionary+BTExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B4EB1C230BA02E001E6693 /* NSDictionary+BTExtension.m */; };
+		70B4EB4F230BA02E001E6693 /* NSDictionary+Encrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B4EB1E230BA02E001E6693 /* NSDictionary+Encrypt.m */; };
+		70B4EB50230BA02E001E6693 /* NSDictionary+MHJsonHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B4EB20230BA02E001E6693 /* NSDictionary+MHJsonHelper.m */; };
+		70B4EB51230BA02E001E6693 /* NSFileManager+KCAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B4EB22230BA02E001E6693 /* NSFileManager+KCAdd.m */; };
+		70B4EB52230BA02E001E6693 /* NSMutableArray+BTExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B4EB24230BA02E001E6693 /* NSMutableArray+BTExtension.m */; };
+		70B4EB53230BA02E001E6693 /* NSObject+BTExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B4EB26230BA02E001E6693 /* NSObject+BTExtension.m */; };
+		70B4EB54230BA02E001E6693 /* NSString+BTExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B4EB28230BA02E001E6693 /* NSString+BTExtension.m */; };
+		70B4EB55230BA02E001E6693 /* UIApplication+BTExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B4EB2B230BA02E001E6693 /* UIApplication+BTExtension.m */; };
+		70B4EB56230BA02E001E6693 /* UIButton+BTExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B4EB2D230BA02E001E6693 /* UIButton+BTExtension.m */; };
+		70B4EB57230BA02E001E6693 /* UIColor+BTExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B4EB2F230BA02E001E6693 /* UIColor+BTExtension.m */; };
+		70B4EB58230BA02E001E6693 /* UIImage+BTExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B4EB31230BA02E001E6693 /* UIImage+BTExtension.m */; };
+		70B4EB59230BA02E001E6693 /* UIImageView+BTExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B4EB33230BA02E001E6693 /* UIImageView+BTExtension.m */; };
+		70B4EB5A230BA02E001E6693 /* UILabel+BTExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B4EB35230BA02E001E6693 /* UILabel+BTExtension.m */; };
+		70B4EB5B230BA02E001E6693 /* UIScrollView+BTExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B4EB37230BA02E001E6693 /* UIScrollView+BTExtension.m */; };
+		70B4EB5C230BA02E001E6693 /* UITextField+BTExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B4EB39230BA02E001E6693 /* UITextField+BTExtension.m */; };
+		70B4EB5D230BA02E001E6693 /* UIView+BTExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B4EB3B230BA02E001E6693 /* UIView+BTExtension.m */; };
+		70B4EB5E230BA02E001E6693 /* UIView+LW_BlockCreate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B4EB3D230BA02E001E6693 /* UIView+LW_BlockCreate.m */; };
+		70B4EB5F230BA02E001E6693 /* UIViewController+BTExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B4EB3F230BA02E001E6693 /* UIViewController+BTExtension.m */; };
+		70B4EB60230BA02E001E6693 /* BTButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B4EB44230BA02E001E6693 /* BTButton.m */; };
 		70F10B942230EACA00BD3551 /* BGLoginApiManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F10B932230EACA00BD3551 /* BGLoginApiManager.m */; };
 		C01D616620C5915B003CAE68 /* NSUserDefaults+BGAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = C01D616520C5915B003CAE68 /* NSUserDefaults+BGAdd.m */; };
 		C03487F6217C57FB00E08721 /* BGNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C03487F4217C57FB00E08721 /* BGNetworkManager.m */; };
@@ -45,6 +74,67 @@
 /* Begin PBXFileReference section */
 		7041DB7A223124DF00AA3C0E /* AKLoginApiM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AKLoginApiM.h; sourceTree = "<group>"; };
 		7041DB7B223124DF00AA3C0E /* AKLoginApiM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AKLoginApiM.m; sourceTree = "<group>"; };
+		70B4EB01230B9F7E001E6693 /* AKHomeApiM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AKHomeApiM.m; sourceTree = "<group>"; };
+		70B4EB02230B9F7E001E6693 /* AKHomeApiM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AKHomeApiM.h; sourceTree = "<group>"; };
+		70B4EB05230BA02E001E6693 /* BeautyKitHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BeautyKitHeader.h; sourceTree = "<group>"; };
+		70B4EB07230BA02E001E6693 /* BeautyKitCategoryHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BeautyKitCategoryHeader.h; sourceTree = "<group>"; };
+		70B4EB09230BA02E001E6693 /* BGVideoEditManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BGVideoEditManager.h; sourceTree = "<group>"; };
+		70B4EB0A230BA02E001E6693 /* BGVideoEditManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BGVideoEditManager.m; sourceTree = "<group>"; };
+		70B4EB0B230BA02E001E6693 /* GIFProduceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GIFProduceManager.h; sourceTree = "<group>"; };
+		70B4EB0C230BA02E001E6693 /* GIFProduceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GIFProduceManager.m; sourceTree = "<group>"; };
+		70B4EB0D230BA02E001E6693 /* KCAuthorityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCAuthorityManager.h; sourceTree = "<group>"; };
+		70B4EB0E230BA02E001E6693 /* KCAuthorityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCAuthorityManager.m; sourceTree = "<group>"; };
+		70B4EB0F230BA02E001E6693 /* KCFileHandleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCFileHandleManager.h; sourceTree = "<group>"; };
+		70B4EB10230BA02E001E6693 /* KCFileHandleManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCFileHandleManager.m; sourceTree = "<group>"; };
+		70B4EB11230BA02E001E6693 /* KCSaveToAlbumManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCSaveToAlbumManager.h; sourceTree = "<group>"; };
+		70B4EB12230BA02E001E6693 /* KCSaveToAlbumManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCSaveToAlbumManager.m; sourceTree = "<group>"; };
+		70B4EB13230BA02E001E6693 /* KCTaskChain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCTaskChain.h; sourceTree = "<group>"; };
+		70B4EB14230BA02E001E6693 /* KCTaskChain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCTaskChain.m; sourceTree = "<group>"; };
+		70B4EB15230BA02E001E6693 /* NSArray+BTExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+BTExtension.h"; sourceTree = "<group>"; };
+		70B4EB16230BA02E001E6693 /* NSArray+BTExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+BTExtension.m"; sourceTree = "<group>"; };
+		70B4EB17230BA02E001E6693 /* NSData+BGExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+BGExtension.h"; sourceTree = "<group>"; };
+		70B4EB18230BA02E001E6693 /* NSData+BGExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+BGExtension.m"; sourceTree = "<group>"; };
+		70B4EB19230BA02E001E6693 /* NSDate+BTExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+BTExtension.h"; sourceTree = "<group>"; };
+		70B4EB1A230BA02E001E6693 /* NSDate+BTExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+BTExtension.m"; sourceTree = "<group>"; };
+		70B4EB1B230BA02E001E6693 /* NSDictionary+BTExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+BTExtension.h"; sourceTree = "<group>"; };
+		70B4EB1C230BA02E001E6693 /* NSDictionary+BTExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+BTExtension.m"; sourceTree = "<group>"; };
+		70B4EB1D230BA02E001E6693 /* NSDictionary+Encrypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Encrypt.h"; sourceTree = "<group>"; };
+		70B4EB1E230BA02E001E6693 /* NSDictionary+Encrypt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Encrypt.m"; sourceTree = "<group>"; };
+		70B4EB1F230BA02E001E6693 /* NSDictionary+MHJsonHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+MHJsonHelper.h"; sourceTree = "<group>"; };
+		70B4EB20230BA02E001E6693 /* NSDictionary+MHJsonHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+MHJsonHelper.m"; sourceTree = "<group>"; };
+		70B4EB21230BA02E001E6693 /* NSFileManager+KCAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+KCAdd.h"; sourceTree = "<group>"; };
+		70B4EB22230BA02E001E6693 /* NSFileManager+KCAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+KCAdd.m"; sourceTree = "<group>"; };
+		70B4EB23230BA02E001E6693 /* NSMutableArray+BTExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+BTExtension.h"; sourceTree = "<group>"; };
+		70B4EB24230BA02E001E6693 /* NSMutableArray+BTExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+BTExtension.m"; sourceTree = "<group>"; };
+		70B4EB25230BA02E001E6693 /* NSObject+BTExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+BTExtension.h"; sourceTree = "<group>"; };
+		70B4EB26230BA02E001E6693 /* NSObject+BTExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+BTExtension.m"; sourceTree = "<group>"; };
+		70B4EB27230BA02E001E6693 /* NSString+BTExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+BTExtension.h"; sourceTree = "<group>"; };
+		70B4EB28230BA02E001E6693 /* NSString+BTExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+BTExtension.m"; sourceTree = "<group>"; };
+		70B4EB2A230BA02E001E6693 /* UIApplication+BTExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+BTExtension.h"; sourceTree = "<group>"; };
+		70B4EB2B230BA02E001E6693 /* UIApplication+BTExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+BTExtension.m"; sourceTree = "<group>"; };
+		70B4EB2C230BA02E001E6693 /* UIButton+BTExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+BTExtension.h"; sourceTree = "<group>"; };
+		70B4EB2D230BA02E001E6693 /* UIButton+BTExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+BTExtension.m"; sourceTree = "<group>"; };
+		70B4EB2E230BA02E001E6693 /* UIColor+BTExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+BTExtension.h"; sourceTree = "<group>"; };
+		70B4EB2F230BA02E001E6693 /* UIColor+BTExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+BTExtension.m"; sourceTree = "<group>"; };
+		70B4EB30230BA02E001E6693 /* UIImage+BTExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+BTExtension.h"; sourceTree = "<group>"; };
+		70B4EB31230BA02E001E6693 /* UIImage+BTExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+BTExtension.m"; sourceTree = "<group>"; };
+		70B4EB32230BA02E001E6693 /* UIImageView+BTExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+BTExtension.h"; sourceTree = "<group>"; };
+		70B4EB33230BA02E001E6693 /* UIImageView+BTExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+BTExtension.m"; sourceTree = "<group>"; };
+		70B4EB34230BA02E001E6693 /* UILabel+BTExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+BTExtension.h"; sourceTree = "<group>"; };
+		70B4EB35230BA02E001E6693 /* UILabel+BTExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+BTExtension.m"; sourceTree = "<group>"; };
+		70B4EB36230BA02E001E6693 /* UIScrollView+BTExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+BTExtension.h"; sourceTree = "<group>"; };
+		70B4EB37230BA02E001E6693 /* UIScrollView+BTExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+BTExtension.m"; sourceTree = "<group>"; };
+		70B4EB38230BA02E001E6693 /* UITextField+BTExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+BTExtension.h"; sourceTree = "<group>"; };
+		70B4EB39230BA02E001E6693 /* UITextField+BTExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+BTExtension.m"; sourceTree = "<group>"; };
+		70B4EB3A230BA02E001E6693 /* UIView+BTExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+BTExtension.h"; sourceTree = "<group>"; };
+		70B4EB3B230BA02E001E6693 /* UIView+BTExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+BTExtension.m"; sourceTree = "<group>"; };
+		70B4EB3C230BA02E001E6693 /* UIView+LW_BlockCreate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+LW_BlockCreate.h"; sourceTree = "<group>"; };
+		70B4EB3D230BA02E001E6693 /* UIView+LW_BlockCreate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+LW_BlockCreate.m"; sourceTree = "<group>"; };
+		70B4EB3E230BA02E001E6693 /* UIViewController+BTExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+BTExtension.h"; sourceTree = "<group>"; };
+		70B4EB3F230BA02E001E6693 /* UIViewController+BTExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+BTExtension.m"; sourceTree = "<group>"; };
+		70B4EB41230BA02E001E6693 /* BeautyKitMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BeautyKitMacro.h; sourceTree = "<group>"; };
+		70B4EB43230BA02E001E6693 /* BTButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTButton.h; sourceTree = "<group>"; };
+		70B4EB44230BA02E001E6693 /* BTButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTButton.m; sourceTree = "<group>"; };
 		70F10B922230EACA00BD3551 /* BGLoginApiManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BGLoginApiManager.h; sourceTree = "<group>"; };
 		70F10B932230EACA00BD3551 /* BGLoginApiManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BGLoginApiManager.m; sourceTree = "<group>"; };
 		730CCF410EE4D4682B16DEB2 /* Pods-BGNetworkDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BGNetworkDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-BGNetworkDemo/Pods-BGNetworkDemo.release.xcconfig"; sourceTree = "<group>"; };
@@ -112,6 +202,112 @@
 				ADF448B2995742341803BDB1 /* libPods-BGNetworkDemo.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		70B4EB04230BA02E001E6693 /* BeautyKit */ = {
+			isa = PBXGroup;
+			children = (
+				70B4EB05230BA02E001E6693 /* BeautyKitHeader.h */,
+				70B4EB06230BA02E001E6693 /* Categories */,
+				70B4EB40230BA02E001E6693 /* Macros */,
+				70B4EB42230BA02E001E6693 /* SubClassings */,
+			);
+			path = BeautyKit;
+			sourceTree = "<group>";
+		};
+		70B4EB06230BA02E001E6693 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				70B4EB07230BA02E001E6693 /* BeautyKitCategoryHeader.h */,
+				70B4EB08230BA02E001E6693 /* Foundation */,
+				70B4EB29230BA02E001E6693 /* UIKit */,
+			);
+			path = Categories;
+			sourceTree = "<group>";
+		};
+		70B4EB08230BA02E001E6693 /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
+				70B4EB09230BA02E001E6693 /* BGVideoEditManager.h */,
+				70B4EB0A230BA02E001E6693 /* BGVideoEditManager.m */,
+				70B4EB0B230BA02E001E6693 /* GIFProduceManager.h */,
+				70B4EB0C230BA02E001E6693 /* GIFProduceManager.m */,
+				70B4EB0D230BA02E001E6693 /* KCAuthorityManager.h */,
+				70B4EB0E230BA02E001E6693 /* KCAuthorityManager.m */,
+				70B4EB0F230BA02E001E6693 /* KCFileHandleManager.h */,
+				70B4EB10230BA02E001E6693 /* KCFileHandleManager.m */,
+				70B4EB11230BA02E001E6693 /* KCSaveToAlbumManager.h */,
+				70B4EB12230BA02E001E6693 /* KCSaveToAlbumManager.m */,
+				70B4EB13230BA02E001E6693 /* KCTaskChain.h */,
+				70B4EB14230BA02E001E6693 /* KCTaskChain.m */,
+				70B4EB15230BA02E001E6693 /* NSArray+BTExtension.h */,
+				70B4EB16230BA02E001E6693 /* NSArray+BTExtension.m */,
+				70B4EB17230BA02E001E6693 /* NSData+BGExtension.h */,
+				70B4EB18230BA02E001E6693 /* NSData+BGExtension.m */,
+				70B4EB19230BA02E001E6693 /* NSDate+BTExtension.h */,
+				70B4EB1A230BA02E001E6693 /* NSDate+BTExtension.m */,
+				70B4EB1B230BA02E001E6693 /* NSDictionary+BTExtension.h */,
+				70B4EB1C230BA02E001E6693 /* NSDictionary+BTExtension.m */,
+				70B4EB1D230BA02E001E6693 /* NSDictionary+Encrypt.h */,
+				70B4EB1E230BA02E001E6693 /* NSDictionary+Encrypt.m */,
+				70B4EB1F230BA02E001E6693 /* NSDictionary+MHJsonHelper.h */,
+				70B4EB20230BA02E001E6693 /* NSDictionary+MHJsonHelper.m */,
+				70B4EB21230BA02E001E6693 /* NSFileManager+KCAdd.h */,
+				70B4EB22230BA02E001E6693 /* NSFileManager+KCAdd.m */,
+				70B4EB23230BA02E001E6693 /* NSMutableArray+BTExtension.h */,
+				70B4EB24230BA02E001E6693 /* NSMutableArray+BTExtension.m */,
+				70B4EB25230BA02E001E6693 /* NSObject+BTExtension.h */,
+				70B4EB26230BA02E001E6693 /* NSObject+BTExtension.m */,
+				70B4EB27230BA02E001E6693 /* NSString+BTExtension.h */,
+				70B4EB28230BA02E001E6693 /* NSString+BTExtension.m */,
+			);
+			path = Foundation;
+			sourceTree = "<group>";
+		};
+		70B4EB29230BA02E001E6693 /* UIKit */ = {
+			isa = PBXGroup;
+			children = (
+				70B4EB2A230BA02E001E6693 /* UIApplication+BTExtension.h */,
+				70B4EB2B230BA02E001E6693 /* UIApplication+BTExtension.m */,
+				70B4EB2C230BA02E001E6693 /* UIButton+BTExtension.h */,
+				70B4EB2D230BA02E001E6693 /* UIButton+BTExtension.m */,
+				70B4EB2E230BA02E001E6693 /* UIColor+BTExtension.h */,
+				70B4EB2F230BA02E001E6693 /* UIColor+BTExtension.m */,
+				70B4EB30230BA02E001E6693 /* UIImage+BTExtension.h */,
+				70B4EB31230BA02E001E6693 /* UIImage+BTExtension.m */,
+				70B4EB32230BA02E001E6693 /* UIImageView+BTExtension.h */,
+				70B4EB33230BA02E001E6693 /* UIImageView+BTExtension.m */,
+				70B4EB34230BA02E001E6693 /* UILabel+BTExtension.h */,
+				70B4EB35230BA02E001E6693 /* UILabel+BTExtension.m */,
+				70B4EB36230BA02E001E6693 /* UIScrollView+BTExtension.h */,
+				70B4EB37230BA02E001E6693 /* UIScrollView+BTExtension.m */,
+				70B4EB38230BA02E001E6693 /* UITextField+BTExtension.h */,
+				70B4EB39230BA02E001E6693 /* UITextField+BTExtension.m */,
+				70B4EB3A230BA02E001E6693 /* UIView+BTExtension.h */,
+				70B4EB3B230BA02E001E6693 /* UIView+BTExtension.m */,
+				70B4EB3C230BA02E001E6693 /* UIView+LW_BlockCreate.h */,
+				70B4EB3D230BA02E001E6693 /* UIView+LW_BlockCreate.m */,
+				70B4EB3E230BA02E001E6693 /* UIViewController+BTExtension.h */,
+				70B4EB3F230BA02E001E6693 /* UIViewController+BTExtension.m */,
+			);
+			path = UIKit;
+			sourceTree = "<group>";
+		};
+		70B4EB40230BA02E001E6693 /* Macros */ = {
+			isa = PBXGroup;
+			children = (
+				70B4EB41230BA02E001E6693 /* BeautyKitMacro.h */,
+			);
+			path = Macros;
+			sourceTree = "<group>";
+		};
+		70B4EB42230BA02E001E6693 /* SubClassings */ = {
+			isa = PBXGroup;
+			children = (
+				70B4EB43230BA02E001E6693 /* BTButton.h */,
+				70B4EB44230BA02E001E6693 /* BTButton.m */,
+			);
+			path = SubClassings;
 			sourceTree = "<group>";
 		};
 		A7CAF5878EC54BF29CDBAC07 /* Pods */ = {
@@ -204,6 +400,7 @@
 		C034F4D420C40A3A00B8467A /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				70B4EB04230BA02E001E6693 /* BeautyKit */,
 				C034F4D620C40A9B00B8467A /* BGHeader.pch */,
 				C034F4A620C4087B00B8467A /* Main.storyboard */,
 				C034F4A920C4087B00B8467A /* Assets.xcassets */,
@@ -225,6 +422,8 @@
 		C034F4EC20C42E5100B8467A /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				70B4EB02230B9F7E001E6693 /* AKHomeApiM.h */,
+				70B4EB01230B9F7E001E6693 /* AKHomeApiM.m */,
 				7041DB7A223124DF00AA3C0E /* AKLoginApiM.h */,
 				7041DB7B223124DF00AA3C0E /* AKLoginApiM.m */,
 				C034F4ED20C42E7300B8467A /* BGUserApiManger.h */,
@@ -423,15 +622,44 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70B4EB5E230BA02E001E6693 /* UIView+LW_BlockCreate.m in Sources */,
+				70B4EB46230BA02E001E6693 /* GIFProduceManager.m in Sources */,
+				70B4EB47230BA02E001E6693 /* KCAuthorityManager.m in Sources */,
+				70B4EB55230BA02E001E6693 /* UIApplication+BTExtension.m in Sources */,
 				C034F4A520C4087B00B8467A /* ViewController.m in Sources */,
+				70B4EB03230B9F7E001E6693 /* AKHomeApiM.m in Sources */,
+				70B4EB4B230BA02E001E6693 /* NSArray+BTExtension.m in Sources */,
+				70B4EB52230BA02E001E6693 /* NSMutableArray+BTExtension.m in Sources */,
 				C03487F6217C57FB00E08721 /* BGNetworkManager.m in Sources */,
+				70B4EB50230BA02E001E6693 /* NSDictionary+MHJsonHelper.m in Sources */,
 				C034F4EB20C42D8D00B8467A /* BGApi.m in Sources */,
+				70B4EB48230BA02E001E6693 /* KCFileHandleManager.m in Sources */,
 				C034F4EF20C42E7300B8467A /* BGUserApiManger.m in Sources */,
+				70B4EB54230BA02E001E6693 /* NSString+BTExtension.m in Sources */,
+				70B4EB5F230BA02E001E6693 /* UIViewController+BTExtension.m in Sources */,
+				70B4EB5B230BA02E001E6693 /* UIScrollView+BTExtension.m in Sources */,
 				70F10B942230EACA00BD3551 /* BGLoginApiManager.m in Sources */,
+				70B4EB59230BA02E001E6693 /* UIImageView+BTExtension.m in Sources */,
+				70B4EB5A230BA02E001E6693 /* UILabel+BTExtension.m in Sources */,
 				C034F4B020C4087B00B8467A /* main.m in Sources */,
 				7041DB7C223124DF00AA3C0E /* AKLoginApiM.m in Sources */,
+				70B4EB4E230BA02E001E6693 /* NSDictionary+BTExtension.m in Sources */,
+				70B4EB51230BA02E001E6693 /* NSFileManager+KCAdd.m in Sources */,
+				70B4EB4A230BA02E001E6693 /* KCTaskChain.m in Sources */,
+				70B4EB53230BA02E001E6693 /* NSObject+BTExtension.m in Sources */,
+				70B4EB60230BA02E001E6693 /* BTButton.m in Sources */,
+				70B4EB56230BA02E001E6693 /* UIButton+BTExtension.m in Sources */,
+				70B4EB45230BA02E001E6693 /* BGVideoEditManager.m in Sources */,
 				C01D616620C5915B003CAE68 /* NSUserDefaults+BGAdd.m in Sources */,
+				70B4EB5D230BA02E001E6693 /* UIView+BTExtension.m in Sources */,
+				70B4EB4F230BA02E001E6693 /* NSDictionary+Encrypt.m in Sources */,
+				70B4EB49230BA02E001E6693 /* KCSaveToAlbumManager.m in Sources */,
+				70B4EB5C230BA02E001E6693 /* UITextField+BTExtension.m in Sources */,
+				70B4EB4D230BA02E001E6693 /* NSDate+BTExtension.m in Sources */,
 				C03487F7217C57FB00E08721 /* BGBaseApiManager.m in Sources */,
+				70B4EB57230BA02E001E6693 /* UIColor+BTExtension.m in Sources */,
+				70B4EB4C230BA02E001E6693 /* NSData+BGExtension.m in Sources */,
+				70B4EB58230BA02E001E6693 /* UIImage+BTExtension.m in Sources */,
 				C034F4A220C4087B00B8467A /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -601,6 +829,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = K6ZT68N34R;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",
@@ -621,6 +850,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = K6ZT68N34R;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",

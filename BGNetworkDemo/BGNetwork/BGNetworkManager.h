@@ -75,5 +75,5 @@
 /**
  取消所有任务
  */
-- (void)cancelAllTask;
+- (void)cancelAllRequests;
 @end

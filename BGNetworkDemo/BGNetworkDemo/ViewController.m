@@ -21,8 +21,8 @@
     [super viewDidLoad];
     {
         NSDictionary *param = @{@"UserID":@"15906407244",@"mac":@"3BF83DF3-22A7-484B-8E52-E3F3D27D8366"};
-        [BGLoginApiManager requestLoginParams:param completionBlcok:^(id responseObject, NSError *error) {
-            NSLog(@"....");
+        [BGLoginApiManager requestLoginParams:param completionBlcok:^(id responseObject, NSError *error, BGResponseDataType responseDataType) {
+            
         }];
     }
 
@@ -32,8 +32,8 @@
                                 };
 //    http://www.blackgold.fun:8001/user/signUp?username=wang&password=11
     /** 注册 */
-    [BGUserApiManger requestUserSignUpParams:user_info completionBlcok:^(id responseObject, NSError *error) {
-        NSLog(@"%@",responseObject);
+    [BGUserApiManger requestUserSignUpParams:user_info completionBlcok:^(id responseObject, NSError *error, BGResponseDataType responseDataType) {
+        
     }];
 //    [BGUserApiManger requestUserIsCreate: @{@"name":@"wanssgwz1as"} completionBlock:^(id responseObject, NSError *error) {
 //        NSLog(@"%@",[responseObject valueForKey:@"code"]);
@@ -56,8 +56,8 @@
 //        NSLog(@"...obj: %@",responseObject);
 //    }];
     
-    [BGUserApiManger reqHttpsCompletionBlcok:^(id responseObject, NSError *error) {
-        NSLog(@".... res: %@",responseObject);
+    [BGUserApiManger reqHttpsCompletionBlcok:^(id responseObject, NSError *error, BGResponseDataType responseDataType) {
+        
     }];
 }
 

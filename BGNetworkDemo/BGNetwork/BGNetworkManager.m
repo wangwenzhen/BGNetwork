@@ -8,6 +8,7 @@
 
 #import "BGNetworkManager.h"
 #import "BGBaseApiManager.h"
+
 @interface BGHTTPSessionManager : AFHTTPSessionManager
 - (instancetype)initWithApiManager:(BGBaseApiManager *)apiManager;
 
@@ -60,7 +61,7 @@
         if ([apiManager.apiConfigDelegate respondsToSelector:@selector(requestTimeoutInterval)]) {
             self.requestSerializer.timeoutInterval = apiManager.apiConfigDelegate.requestTimeoutInterval;
         } else {
-            self.requestSerializer.timeoutInterval = kDEFAULT_REQUEST_TIMEOUT;
+            self.requestSerializer.timeoutInterval =  kDEFAULT_REQUEST_TIMEOUT;
         }
         /** 请求头 */
         if ([apiManager.apiConfigDelegate respondsToSelector:@selector(requestHeaderFieldDictionary)]) {
@@ -70,6 +71,7 @@
                 }
             }];
         }
+        
         
     }
     return self;
@@ -105,6 +107,70 @@
                                     url:(NSString *)url
                                  params:(NSDictionary *)params
                        completionHandle:(BGNetworkCompletionBlcok)completionHandle{
+    
+    if ([apiManager.apiConfigDelegate respondsToSelector:@selector(isEnableCache)]) {
+        
+        if (apiManager.apiConfigDelegate.isEnableCache) {//开启了缓存
+            if ([apiManager.apiConfigDelegate respondsToSelector:@selector(cacheDBId)]) {
+                NSString *ID_name = [apiManager.apiConfigDelegate cacheDBId];
+                
+                if ([apiManager.apiConfigDelegate respondsToSelector:@selector(cacheDataTime)]) {
+                    NSInteger cacheTime = apiManager.apiConfigDelegate.cacheDataTime;
+                    
+                    for (NSString *filename in [BGNetworkManager sortSubpathsOfDirectoryAtPath:[BGNetworkManager cacheFloder]]) {
+                        if ([filename containsString:ID_name]) {//文件存在
+                            NSArray *d = [filename componentsSeparatedByString:@"*"];
+                            NSString *date_s = d.firstObject;
+                            
+                            NSString *now_d = [BGNetworkManager getNowtimeFormatter];
+                            NSInteger second = [BGNetworkManager dateTimeDifferenceWithT1:date_s t2:now_d];
+                            NSString *dest_s = [[BGNetworkManager cacheFloder] stringByAppendingPathComponent:filename];
+                            
+                            if (second < cacheTime) {//缓存时间内
+                                
+                                NSData *d = [[NSData alloc] initWithContentsOfFile:dest_s];
+                                NSError *error = nil;
+                                id responseObject = [NSJSONSerialization JSONObjectWithData:d options:NSJSONReadingMutableContainers error:&error];
+                                if (completionHandle) {
+                                    completionHandle(responseObject,error,BGResponseDataTypeCache);
+                                    //-1表示无效任务是缓存数据
+                                    return @"-1";
+                                }
+                            } else {
+                                //清空缓存
+                                [[NSFileManager defaultManager] removeItemAtPath:dest_s error:nil];
+                            }
+                            break;
+                        }
+                    }
+                    
+                    
+                } else{
+                    NSLog(@"cacheDataTime 缓存时长协议未实现");
+                }
+                
+            } else {
+                NSLog(@"cacheDBId 网络数据缓存协议未设置缓存主键");
+            }
+        } else {
+            
+            if ([apiManager.apiConfigDelegate respondsToSelector:@selector(cacheDBId)]) {
+                NSString *ID_name = apiManager.apiConfigDelegate.cacheDBId;
+                if ([ID_name union_isExist]) {
+                    
+                    for (NSString *filename in [BGNetworkManager sortSubpathsOfDirectoryAtPath:[BGNetworkManager cacheFloder]]) {
+                        if ([filename containsString:ID_name]) {//文件存在
+                            NSString *dest_s = [[BGNetworkManager cacheFloder] stringByAppendingPathComponent:filename];
+                            [[NSFileManager defaultManager] removeItemAtPath:dest_s error:nil];
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    
     BGHTTPSessionManager *sessionManager = [[BGHTTPSessionManager alloc] initWithApiManager:apiManager];
     
     //是否允许请求重定向
@@ -134,33 +200,300 @@
     
     
     __block NSURLSessionDataTask *dataTask = nil;
+    NSString *task_id = [NSDate union_date_type2];
+    
     dataTask = [sessionManager dataTaskWithRequest:urlRequest completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
-        NSString *task_id = intToString(dataTask.taskIdentifier);
+        //        NSString *task_id = intToString(dataTask.taskIdentifier);
         [sessionManager invalidateSessionCancelingTasks:YES];
         
-        @synchronized(self.taskTable) {
+        if ([apiManager.apiConfigDelegate respondsToSelector:@selector(responeAllHttpHeaders:)]) {
+            NSHTTPURLResponse *re = (NSHTTPURLResponse *)response;
+            [apiManager.apiConfigDelegate responeAllHttpHeaders:re.allHeaderFields];
+        }
+        
+        @synchronized(self) {
+            
             if ([self.taskTable.allKeys containsObject:task_id]) {
+                KCLog(@"task_id--- remove -- %@",task_id);
                 [self.taskTable removeObjectForKey:task_id];
             }
         }
         
         if (completionHandle) {
             //格式化一下
-            if (responseObject) {
-                NSData *d = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];;
-                responseObject = [NSJSONSerialization JSONObjectWithData:d options:NSJSONReadingMutableContainers error:nil];
+            if (responseObject && !error) {
+                //判断相应数据是否满足业务需求
+                BOOL meetBusinessNeed = YES;
+                if ([apiManager.apiConfigDelegate respondsToSelector:@selector(areBusinessNeedMeetWithResponseObject:)])  {
+                    meetBusinessNeed =  [apiManager.apiConfigDelegate areBusinessNeedMeetWithResponseObject:responseObject];
+                }
+                //满足满足业务需求 && 无错
+                if (meetBusinessNeed && !error) {
+                    if ([NSJSONSerialization isValidJSONObject:responseObject]){
+                        NSData *d = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];;
+                        responseObject = [NSJSONSerialization JSONObjectWithData:d options:NSJSONReadingMutableContainers error:nil];
+                        
+                        
+                        /** 设置网络层数据缓存 */
+                        
+                        if ([apiManager.apiConfigDelegate respondsToSelector:@selector(isEnableCache)]) {
+                            if (apiManager.apiConfigDelegate.isEnableCache) {//开启了缓存
+                                if ([apiManager.apiConfigDelegate respondsToSelector:@selector(cacheDBId)]) {
+                                    NSString *ID_name = [apiManager.apiConfigDelegate cacheDBId];
+                                    NSString *f_n = F(@"%@*%@",[BGNetworkManager getNowtimeFormatter],ID_name);
+                                    NSString *dest_s = F(@"%@.json",[[BGNetworkManager cacheFloder] stringByAppendingPathComponent:f_n]);
+                                    [d writeToFile:dest_s atomically:YES];
+                                } else {
+                                    KCLog(@"cacheDBId 网络数据缓存协议未设置缓存主键");
+                                }
+                            }
+                        }
+                    }
+                    completionHandle(responseObject, error,BGResponseDataTypeRemote);
+                }else {
+                    //判断是否需要重试请求
+                    BOOL needRetryReq = NO;
+                    if ([apiManager.apiConfigDelegate respondsToSelector:@selector(needRetryReq)])  {
+                        needRetryReq =  [apiManager.apiConfigDelegate needRetryReq];
+                    }
+                    if (needRetryReq) {
+                        //重试请求间隔，默认1秒
+                        int retryReqInterval = 1;
+                        if ([apiManager.apiConfigDelegate respondsToSelector:@selector(retryReqInterval)]) {
+                            retryReqInterval = [apiManager.apiConfigDelegate retryReqInterval];
+                        }
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(retryReqInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                            [self retryWithUrlRequest:urlRequest apiManager:apiManager currentRetryReqTime:0 completionHandle:completionHandle];
+                        });
+                        
+                    }else {
+                        //不符合业务需求
+                        completionHandle(responseObject, error,BGResponseDataTypeRemoteInvalid);
+                    }
+                    
+                    
+                }
+                
+            } else {
+                BOOL meetBusinessNeed = YES;
+                if ([apiManager.apiConfigDelegate respondsToSelector:@selector(areBusinessNeedMeetWithResponseObject:)])  {
+                    meetBusinessNeed =  [apiManager.apiConfigDelegate areBusinessNeedMeetWithResponseObject:responseObject];
+                }
+                
+                if (meetBusinessNeed && !error) {
+                    completionHandle(responseObject, error,BGResponseDataTypeRemote);
+                }else {
+                    //判断是否需要重试请求
+                    BOOL needRetryReq = NO;
+                    if ([apiManager.apiConfigDelegate respondsToSelector:@selector(needRetryReq)])  {
+                        needRetryReq =  [apiManager.apiConfigDelegate needRetryReq];
+                    }
+                    if (needRetryReq) {
+                        
+                        //重试请求间隔，默认1秒
+                        int retryReqInterval = 1;
+                        if ([apiManager.apiConfigDelegate respondsToSelector:@selector(retryReqInterval)]) {
+                            retryReqInterval = [apiManager.apiConfigDelegate retryReqInterval];
+                        }
+                        
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(retryReqInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                            [self retryWithUrlRequest:urlRequest apiManager:apiManager currentRetryReqTime:0 completionHandle:completionHandle];
+                        });
+                    }else {
+                        completionHandle(responseObject, error,BGResponseDataTypeRemoteInvalid);
+                    }
+                }
             }
             
-            completionHandle(responseObject, error);
+            
         }
     }];
     
-    NSString *task_id = intToString(dataTask.taskIdentifier);
-    @synchronized(self.taskTable) {
+    //    NSString *task_id = intToString(dataTask.taskIdentifier);
+    @synchronized(self) {
+        KCLog(@"task_id--- create -- %@",task_id);
         [self.taskTable setValue:dataTask forKey:task_id];
     }
     
     [dataTask resume];
+    return task_id;
+}
+
+//请求重试
+- (NSString*)retryWithUrlRequest:(NSURLRequest* )urlRequest
+                      apiManager:(BGBaseApiManager *)apiManager
+             currentRetryReqTime:(int)currentRetryReqTime
+                completionHandle:(BGNetworkCompletionBlcok)completionHandle{
+    
+    //    NSLog(@"%@ 请求重试第%d次",urlRequest.URL.absoluteString,currentRetryReqTime);
+    
+    BGHTTPSessionManager *sessionManager = [[BGHTTPSessionManager alloc] initWithApiManager:apiManager];
+    
+    //重试请求间隔，默认1秒
+    int retryReqInterval = 1;
+    if ([apiManager.apiConfigDelegate respondsToSelector:@selector(retryReqInterval)]) {
+        retryReqInterval = [apiManager.apiConfigDelegate retryReqInterval];
+    }
+    //最多重试请求次数，默认3次
+    int maxRetryReqTimes = 3;
+    if ([apiManager.apiConfigDelegate respondsToSelector:@selector(maxRetryReqTimes)]) {
+        maxRetryReqTimes = [apiManager.apiConfigDelegate maxRetryReqTimes];
+    }
+    //是否需要重试
+    BOOL needRetryReq = NO;
+    if ([apiManager.apiConfigDelegate respondsToSelector:@selector(needRetryReq)])  {
+        needRetryReq =  [apiManager.apiConfigDelegate needRetryReq];
+    }
+    
+    __block NSURLSessionDataTask *dataTask = nil;
+    NSString *task_id = [NSDate union_date_type2];
+    
+    dataTask = [sessionManager dataTaskWithRequest:urlRequest completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
+        //        NSString *task_id = intToString(dataTask.taskIdentifier);
+        [sessionManager invalidateSessionCancelingTasks:YES];
+        
+        
+        if ([apiManager.apiConfigDelegate respondsToSelector:@selector(responeAllHttpHeaders:)]) {
+            NSHTTPURLResponse *re = (NSHTTPURLResponse *)response;
+            [apiManager.apiConfigDelegate responeAllHttpHeaders:re.allHeaderFields];
+        }
+        
+        @synchronized(self) {
+            
+            if ([self.taskTable.allKeys containsObject:task_id]) {
+                KCLog(@"task_id--- remove -- %@",task_id);
+                [self.taskTable removeObjectForKey:task_id];
+            }
+        }
+        
+        if (completionHandle) {
+            
+            //到maxRetryReqTimes次了，跳出递归，执行completionHandle
+            if (currentRetryReqTime == maxRetryReqTimes) {
+                BOOL meetBusinessNeed = YES;
+                if ([apiManager.apiConfigDelegate respondsToSelector:@selector(areBusinessNeedMeetWithResponseObject:)])  {
+                    meetBusinessNeed =  [apiManager.apiConfigDelegate areBusinessNeedMeetWithResponseObject:responseObject];
+                }
+                
+                
+                if (responseObject && meetBusinessNeed) {
+                    if ([NSJSONSerialization isValidJSONObject:responseObject]){
+                        NSData *d = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];;
+                        responseObject = [NSJSONSerialization JSONObjectWithData:d options:NSJSONReadingMutableContainers error:nil];
+                        
+                        
+                        /** 设置网络层数据缓存 */
+                        
+                        if ([apiManager.apiConfigDelegate respondsToSelector:@selector(isEnableCache)]) {
+                            if (apiManager.apiConfigDelegate.isEnableCache) {//开启了缓存
+                                if ([apiManager.apiConfigDelegate respondsToSelector:@selector(cacheDBId)]) {
+                                    NSString *ID_name = [apiManager.apiConfigDelegate cacheDBId];
+                                    NSString *f_n = F(@"%@*%@",[BGNetworkManager getNowtimeFormatter],ID_name);
+                                    NSString *dest_s = F(@"%@.json",[[BGNetworkManager cacheFloder] stringByAppendingPathComponent:f_n]);
+                                    [d writeToFile:dest_s atomically:YES];
+                                } else {
+                                    KCLog(@"cacheDBId 网络数据缓存协议未设置缓存主键");
+                                }
+                            }
+                        }
+                    }
+                    completionHandle(responseObject, error,BGResponseDataTypeRemote);
+                } else {
+                    
+                    completionHandle(responseObject, error,BGResponseDataTypeRemoteInvalid);
+                }
+                
+            }else {
+                
+                //格式化一下
+                if (responseObject && !error) {
+                    //                    NSData *d = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];;
+                    //                    NSDictionary *testresponseObject = [NSJSONSerialization JSONObjectWithData:d options:NSJSONReadingMutableContainers error:nil];
+                    //
+                    //                    NSLog(@"%@ 请求结果 hadError:%d responseObject: %@ ",urlRequest.URL.absoluteString,error?1:0, testresponseObject);
+                    
+                    //判断相应数据是否满足业务需求
+                    BOOL meetBusinessNeed = YES;
+                    if ([apiManager.apiConfigDelegate respondsToSelector:@selector(areBusinessNeedMeetWithResponseObject:)])  {
+                        meetBusinessNeed =  [apiManager.apiConfigDelegate areBusinessNeedMeetWithResponseObject:responseObject];
+                    }
+                    //满足满足业务需求 && 无错
+                    if (meetBusinessNeed && !error) {
+                        if ([NSJSONSerialization isValidJSONObject:responseObject]){
+                            NSData *d = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];;
+                            responseObject = [NSJSONSerialization JSONObjectWithData:d options:NSJSONReadingMutableContainers error:nil];
+                            
+                            
+                            /** 设置网络层数据缓存 */
+                            
+                            if ([apiManager.apiConfigDelegate respondsToSelector:@selector(isEnableCache)]) {
+                                if (apiManager.apiConfigDelegate.isEnableCache) {//开启了缓存
+                                    if ([apiManager.apiConfigDelegate respondsToSelector:@selector(cacheDBId)]) {
+                                        NSString *ID_name = [apiManager.apiConfigDelegate cacheDBId];
+                                        NSString *f_n = F(@"%@*%@",[BGNetworkManager getNowtimeFormatter],ID_name);
+                                        NSString *dest_s = F(@"%@.json",[[BGNetworkManager cacheFloder] stringByAppendingPathComponent:f_n]);
+                                        [d writeToFile:dest_s atomically:YES];
+                                    } else {
+                                        KCLog(@"cacheDBId 网络数据缓存协议未设置缓存主键");
+                                    }
+                                }
+                            }
+                        }
+                        completionHandle(responseObject, error,BGResponseDataTypeRemote);
+                        //不满足重试
+                    }else {
+                        //判断是否需要重试请求
+                        
+                        if (needRetryReq) {
+                            
+                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(retryReqInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                [self retryWithUrlRequest:urlRequest apiManager:apiManager currentRetryReqTime:currentRetryReqTime+1 completionHandle:completionHandle];
+                            });
+                        }else {
+                            
+                            completionHandle(responseObject, error,BGResponseDataTypeRemote);
+                        }
+                        
+                    }
+                    
+                }else {
+                    BOOL meetBusinessNeed = YES;
+                    if ([apiManager.apiConfigDelegate respondsToSelector:@selector(areBusinessNeedMeetWithResponseObject:)])  {
+                        meetBusinessNeed =  [apiManager.apiConfigDelegate areBusinessNeedMeetWithResponseObject:responseObject];
+                    }
+                    //满足满足业务需求 && 无错
+                    if (meetBusinessNeed && !error) {
+                        completionHandle(responseObject, error,BGResponseDataTypeRemote);
+                        //不满足重试
+                    }else {
+                        
+                        //判断是否需要重试请求
+                        if (needRetryReq) {
+                            
+                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(retryReqInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                [self retryWithUrlRequest:urlRequest apiManager:apiManager currentRetryReqTime:currentRetryReqTime+1 completionHandle:completionHandle];
+                            });
+                        }else {
+                            
+                            completionHandle(responseObject, error,BGResponseDataTypeRemote);
+                        }
+                    }
+                }
+                
+            }
+            
+        }
+    }];
+    
+    
+    //    NSString *task_id = intToString(dataTask.taskIdentifier);
+    @synchronized(self) {
+        KCLog(@"task_id--- create -- %@",task_id);
+        [self.taskTable setValue:dataTask forKey:task_id];
+    }
+    
+    [dataTask resume];
+    
     return task_id;
 }
 
@@ -174,7 +507,7 @@
     NSAssert(url, @"上传任务 url 不可为空");
     BGHTTPSessionManager *manager = [[BGHTTPSessionManager alloc] initWithApiManager:apiManager];
     NSError *error = nil;
-    NSLog(@"requestMethod# %@ \n http_url# %@ \n params# %@",@"POST",url,params);
+    NSLog(@"requestMethod# %@ \n http_url# %@ \n params# %@  \n",@"POST",url,params);
     NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:url parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         switch (uploadType) {
             case BGUploadTypeImg:
@@ -235,7 +568,7 @@
     } error:&error];
     
     if (error) {
-        completionHandle(nil,error);
+        completionHandle(nil,error,BGResponseDataTypeRemote);
         return nil;
     } else {
         NSURLSessionUploadTask *dataTask = nil;
@@ -245,17 +578,17 @@
                                             NSString *task_id = intToString(dataTask.taskIdentifier);
                                             [manager invalidateSessionCancelingTasks:YES];
                                             
-                                            @synchronized(self.taskTable) {
+                                            @synchronized(self) {
                                                 if ([self.taskTable.allKeys containsObject:task_id]) {
                                                     [self.taskTable removeObjectForKey:task_id];
                                                 }
                                             }
                                             
-                                            completionHandle(responseObject,error);
+                                            completionHandle(responseObject,error,BGResponseDataTypeRemote);
                                         }];
         
         NSString *task_id = intToString(dataTask.taskIdentifier);
-        @synchronized(self.taskTable) {
+        @synchronized(self) {
             [self.taskTable setValue:dataTask forKey:task_id];
         }
         [dataTask resume];
@@ -280,17 +613,17 @@
                                       NSString *task_id = intToString(downloadTask.taskIdentifier);
                                       [manager invalidateSessionCancelingTasks:YES];
                                       
-                                      @synchronized(self.taskTable) {
+                                      @synchronized(self) {
                                           if ([self.taskTable.allKeys containsObject:task_id]) {
                                               [self.taskTable removeObjectForKey:task_id];
                                           }
                                       }
                                       if (completionHandle) {
-                                          completionHandle(filePath, error);
+                                          completionHandle(filePath, error,BGResponseDataTypeRemote);
                                       }
                                   }];
     NSString *task_id = intToString(downloadTask.taskIdentifier);
-    @synchronized(self.taskTable) {
+    @synchronized(self) {
         [self.taskTable setValue:downloadTask forKey:task_id];
     }
     [downloadTask resume];
@@ -323,8 +656,11 @@
             break;
     }
     
-    NSDictionary *params = [self parametersWithApiManager:apiManager requestParam:requestParam requestUrl:requestUrl];
-    NSLog(@"\n requestMethod# %@ \n url:  %@ \n params:   %@",requestType,http_url,params);
+    NSDictionary *params = [self parametersWithApiManager:apiManager
+                                             requestParam:requestParam
+                                               requestUrl:requestUrl];
+    NSLog(@"\n[----- \n requestMethod# %@ \n url:  %@ \n params:   %@ \n reqHeader#\n %@ ----\n]",requestType,http_url,params,sessionManager.requestSerializer.HTTPRequestHeaders);
+    
     
     http_url = [http_url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     NSMutableDictionary *params_m = [NSMutableDictionary dictionary];
@@ -361,18 +697,20 @@
 }
 
 - (void)cancelTaskWithUnionId:(NSString *)unionId{
-    if ([self.taskTable objectForKey:unionId]) {
-        NSURLSessionDataTask *requestTask = [self.taskTable objectForKey:unionId];
-        if ([requestTask isKindOfClass:[NSURLSessionDownloadTask class]]) {
-            //手动取消的下载请求，调用cancelByProducingResumeData:，这样回调的error中会带有resumeData
-            NSURLSessionDownloadTask *downloadTask = (NSURLSessionDownloadTask *)requestTask;
-            [downloadTask cancelByProducingResumeData:^(NSData * _Nullable resumeData) {
-                
-            }];
-        } else {
-            [requestTask cancel];
+    @synchronized (self) {
+        if ([self.taskTable objectForKey:unionId]) {
+            NSURLSessionDataTask *requestTask = [self.taskTable objectForKey:unionId];
+            if ([requestTask isKindOfClass:[NSURLSessionDownloadTask class]]) {
+                //手动取消的下载请求，调用cancelByProducingResumeData:，这样回调的error中会带有resumeData
+                NSURLSessionDownloadTask *downloadTask = (NSURLSessionDownloadTask *)requestTask;
+                [downloadTask cancelByProducingResumeData:^(NSData * _Nullable resumeData) {
+                    
+                }];
+            } else {
+                [requestTask cancel];
+            }
+            [self.taskTable removeObjectForKey:unionId];
         }
-        [self.taskTable removeObjectForKey:unionId];
     }
 }
 
@@ -414,4 +752,45 @@
     
     return imageData;
 }
+
++ (NSString *)cacheFloder{
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *finalS = [[paths firstObject] stringByAppendingPathComponent:@"cacheNetworkData"];
+    NSFileManager *file_m = [NSFileManager defaultManager];
+    if (![file_m fileExistsAtPath:finalS]) {
+        [file_m createDirectoryAtPath:finalS withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
+    return finalS;
+}
+
++ (NSString*)getNowtimeFormatter{
+    NSDate *date = [NSDate date];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateStyle:NSDateFormatterMediumStyle];
+    [formatter setTimeStyle:NSDateFormatterShortStyle];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    return [formatter stringFromDate:date];
+}
+
++ (NSArray *)sortSubpathsOfDirectoryAtPath:(NSString *)path{
+    NSArray *files = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:path error:nil];
+    
+    NSArray *sortImgs = [files sortedArrayUsingComparator:^NSComparisonResult(NSString *path1, NSString *path2) {
+        return (NSComparisonResult)[path1 compare:path2 options:NSNumericSearch];
+    }];
+    return sortImgs;
+}
+
++ (NSInteger)dateTimeDifferenceWithT1:(NSString *)t1 t2:(NSString *)t2 {
+    
+    NSDateFormatter* formater = [[NSDateFormatter alloc] init];
+    [formater setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSDate* startDate = [formater dateFromString:t1];
+    NSDate* endDate = [formater dateFromString:t2];
+    NSTimeInterval time = [endDate timeIntervalSinceDate:startDate];
+    return time;
+}
+
 @end

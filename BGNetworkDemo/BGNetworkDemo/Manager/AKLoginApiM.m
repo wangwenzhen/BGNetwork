@@ -7,11 +7,14 @@
 //
 
 #import "AKLoginApiM.h"
-#import "AKReqUrl.h"
+
+//#import "AKReqUrl.h"
 @interface AKLoginApiM ()
 @property (nonatomic,strong) NSMutableDictionary *reqBlockTable;
 @end
 @implementation AKLoginApiM
+
+#if     _iscompile
 - (BTResponseSerializerType)responseSerializerType{
     return BTResponseSerializerTypeJSON;
 }
@@ -70,4 +73,6 @@
     }
     return _reqBlockTable;
 }
+#endif
 @end
+
